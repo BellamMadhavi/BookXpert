@@ -12,7 +12,6 @@ class ObjectRepository(private val api: ApiService, private val dao: ObjectDao) 
 
     suspend fun fetchAndStoreObjects(): Result<Unit> {
         return try {
-//            val response = api.getObjects()
             val response = RetrofitClient.api.getObjects()
             if (response.isSuccessful) {
                 response.body()?.let { items ->
