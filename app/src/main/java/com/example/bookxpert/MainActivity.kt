@@ -48,6 +48,17 @@ class MainActivity : ComponentActivity() {
             }
         setContent {
             RequestNotificationPermission()
+            FirebaseMessaging.getInstance().token
+                .addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w("FCM_TOKEN", "Fetching FCM registration token failed", task.exception)
+                        return@addOnCompleteListener
+                    }
+
+                    // Get new FCM token
+                    val token = task.result
+                    Log.d("FCM_TOKEN", "Token: $token")
+                }
 
             val user = viewModel.user.collectAsState().value // Access state value
 
